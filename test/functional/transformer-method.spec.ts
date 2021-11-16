@@ -198,6 +198,9 @@ describe('transformer methods decorator', () => {
       @Expose({ since: 2 })
       websiteUrl?: string;
 
+      @Exclude({since: 2})
+      email: string;
+
       password: string;
     }
 
@@ -209,6 +212,7 @@ describe('transformer methods decorator', () => {
         user.lastName = 'Segal';
         user.password = 'imnosuperman';
         user.roles = ['USER', 'MANAGER'];
+        user.email = 'fakeaddy@mail.com';
         user.websiteUrl = 'http://www.github.com';
 
         return user;
@@ -221,6 +225,7 @@ describe('transformer methods decorator', () => {
         user.lastName = 'Segal';
         user.password = 'imnosuperman';
         user.roles = ['USER', 'MANAGER'];
+        user.email = 'fakeaddy@mail.com';
         user.websiteUrl = 'http://www.github.com';
 
         return user;

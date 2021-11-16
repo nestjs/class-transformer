@@ -16,6 +16,12 @@ describe('ignoring specific decorators', () => {
       @Expose({ groups: ['user'] })
       lastName: string;
 
+      @Exclude({ groups: ['user'] })
+      email: string;
+
+      @Exclude({since: 0.5})
+      address: string;
+
       @Exclude()
       password: string;
     }
@@ -23,12 +29,16 @@ describe('ignoring specific decorators', () => {
     const user = new User();
     user.firstName = 'Umed';
     user.lastName = 'Khudoiberdiev';
+    user.email = 'fakeaddy@email.com';
+    user.address = 'Fake Street 7879';
     user.password = 'imnosuperman';
 
-    const plainedUser = classToPlain(user, { ignoreDecorators: true });
+    const plainedUser = classToPlain(user, { ignoreDecorators: true, version: 0.5 });
     expect(plainedUser).toEqual({
       firstName: 'Umed',
       lastName: 'Khudoiberdiev',
+      email: 'fakeaddy@email.com',
+      address: 'Fake Street 7879',
       password: 'imnosuperman',
     });
   });
