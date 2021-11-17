@@ -621,10 +621,14 @@ export class User {
 
   @Expose({ groups: ['user'] }) // this means that this data will be exposed only to users
   password: string;
+
+  @Exclude({ groups: ['guest'] }) // this means that this data will be excluded only to guests
+  address: string;
 }
 
-let user1 = classToPlain(user, { groups: ['user'] }); // will contain id, name, email and password
-let user2 = classToPlain(user, { groups: ['admin'] }); // will contain id, name and email
+let user1 = classToPlain(user, { groups: ['user'] }); // will contain id, name, email, password and address
+let user2 = classToPlain(user, { groups: ['admin'] }); // will contain id, name, email and address
+let user3 = classToPlain(user, { groups: ['guest'] }); // will contain id and name
 ```
 
 ## Using versioning to control exposed and excluded properties[⬆](#table-of-contents)
@@ -636,6 +640,7 @@ You can control which properties of your model should be exposed or excluded in 
 import { Exclude, Expose, classToPlain } from '@nestjs/class-transformer';
 
 export class User {
+  @Exclude({ since: 2 })
   id: number;
 
   name: string;
@@ -650,8 +655,8 @@ export class User {
 let user1 = classToPlain(user, { version: 0.5 }); // will contain id and name
 let user2 = classToPlain(user, { version: 0.7 }); // will contain id, name and email
 let user3 = classToPlain(user, { version: 1 }); // will contain id and name
-let user4 = classToPlain(user, { version: 2 }); // will contain id and name
-let user5 = classToPlain(user, { version: 2.1 }); // will contain id, name and password
+let user4 = classToPlain(user, { version: 2 }); // will contain name
+let user5 = classToPlain(user, { version: 2.1 }); // will contain name and password
 ```
 
 ## Сonverting date strings into Date objects[⬆](#table-of-contents)
