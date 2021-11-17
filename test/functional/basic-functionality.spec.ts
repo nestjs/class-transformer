@@ -2019,6 +2019,47 @@ describe('basic functionality', () => {
     });
   });
 
+  it('should exclude/expose properties that match given group only when they match version', () => {
+    defaultMetadataStorage.clear();
+    
+    class User {
+      @Expose({ 
+        groups: ['external'], 
+        since: 2 
+      })
+      firstName: string;
+
+      @Exclude({ 
+        groups: ['external'], 
+        since: 2 
+      })
+      email: string;
+    }
+
+    const user = new User();
+    user.email = 'umed@email.com';
+    user.firstName = 'Umed';
+
+    const plainUserExternalV1 = classToPlain(user, { groups: ['external'], version: 1 });
+    const plainUserV1 = classToPlain(user, { version: 1 });
+    const plainUserExternalV2 = classToPlain(user, { groups: ['external'], version: 2 });
+    const plainUserV2 = classToPlain(user, { version: 2 });
+    
+    expect(plainUserExternalV1).not.toBeInstanceOf(User);
+    expect(plainUserV1).not.toBeInstanceOf(User);
+    expect(plainUserExternalV2).not.toBeInstanceOf(User);
+    expect(plainUserV2).not.toBeInstanceOf(User);
+    
+    expect(plainUserExternalV1).toEqual({ email: 'umed@email.com' });
+    expect(plainUserExternalV1.firstName).toBeUndefined();
+    expect(plainUserV1).toEqual({ email: 'umed@email.com' });
+    expect(plainUserV1.firstName).toBeUndefined();
+    expect(plainUserExternalV2).toEqual({ firstName: 'Umed' });
+    expect(plainUserExternalV2.email).toBeUndefined();
+    expect(plainUserV2).toEqual({ email: 'umed@email.com' });
+    expect(plainUserV2.firstName).toBeUndefined();
+  });
+
   it('should expose method and accessors that have @Expose()', () => {
     defaultMetadataStorage.clear();
 

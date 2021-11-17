@@ -619,7 +619,7 @@ export class TransformOperationExecutor {
           // apply versioning exclusion options
           if(excludeMetadata.options.since || excludeMetadata.options.until) {
             shouldExclude = this.options.version
-              ? this.checkVersion(
+              ? shouldExclude && this.checkVersion(
                   excludeMetadata.options.since, 
                   excludeMetadata.options.until
                 )
