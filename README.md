@@ -150,7 +150,7 @@ Now you can use `users[0].getName()` and `users[0].isAdult()` methods.
 
 1. Install module:
 
-   `npm install class-transformer --save`
+   `npm install @nestjs/class-transformer --save`
 
 2. `reflect-metadata` shim is required, install it too:
 
@@ -176,7 +176,7 @@ Now you can use `users[0].getName()` and `users[0].isAdult()` methods.
 
 1. Install module:
 
-   `npm install class-transformer --save`
+   `npm install @nestjs/class-transformer --save`
 
 2. `reflect-metadata` shim is required, install it too:
 
